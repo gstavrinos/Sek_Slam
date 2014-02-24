@@ -995,6 +995,7 @@ containing a value of this type.
         public static final int back=0x7f040043;
         public static final int begin_manuver=0x7f040051;
         public static final int camera=0x7f04004d;
+        public static final int cartesian_radar=0x7f040059;
         public static final int circleImg=0x7f040033;
         public static final int container=0x7f040032;
         public static final int controllerSelection=0x7f04003c;
@@ -1017,6 +1018,7 @@ containing a value of this type.
         public static final int navigation=0x7f040053;
         public static final int normal=0x7f040001;
         public static final int options=0x7f04003e;
+        public static final int polar_radar=0x7f04005a;
         public static final int record=0x7f04004f;
         public static final int referenceP=0x7f04004a;
         public static final int relativeLayout1=0x7f040039;
@@ -1131,6 +1133,7 @@ containing a value of this type.
         public static final int action_settings=0x7f09000e;
         public static final int app_name=0x7f09000d;
         public static final int camera=0x7f090026;
+        public static final int cartesian=0x7f090032;
         public static final int clear=0x7f09001b;
         public static final int computer=0x7f090023;
         public static final int controls=0x7f09000f;
@@ -1147,6 +1150,7 @@ containing a value of this type.
         /**  Menu strings 
          */
         public static final int phone=0x7f090022;
+        public static final int polar=0x7f090033;
         public static final int recording=0x7f09002e;
         public static final int saveMap=0x7f09002a;
         public static final int search=0x7f090028;

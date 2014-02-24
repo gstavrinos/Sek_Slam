@@ -170,6 +170,12 @@ public class DisplayMap extends SherlockActivity
 			case R.id.end_manouver:
 				ActiveConnection.getConn().endManeuverMap();
 				break;
+			case R.id.cartesian_radar:
+				//TODO
+				break;
+			case R.id.polar_radar:
+				//TODO
+				break;
 		    }
 		    return true;
 	}

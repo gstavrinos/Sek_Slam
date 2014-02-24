@@ -324,6 +324,7 @@ int id action_settings 0x7f04004e
 int id back 0x7f040043
 int id begin_manuver 0x7f040051
 int id camera 0x7f04004d
+int id cartesian_radar 0x7f040059
 int id circleImg 0x7f040033
 int id container 0x7f040032
 int id controllerSelection 0x7f04003c
@@ -346,6 +347,7 @@ int id mv 0x7f040038
 int id navigation 0x7f040053
 int id normal 0x7f040001
 int id options 0x7f04003e
+int id polar_radar 0x7f04005a
 int id record 0x7f04004f
 int id referenceP 0x7f04004a
 int id relativeLayout1 0x7f040039
@@ -426,6 +428,7 @@ int string abs__shareactionprovider_share_with_application 0x7f090007
 int string action_settings 0x7f09000e
 int string app_name 0x7f09000d
 int string camera 0x7f090026
+int string cartesian 0x7f090032
 int string clear 0x7f09001b
 int string computer 0x7f090023
 int string controls 0x7f09000f
@@ -440,6 +443,7 @@ int string manualC 0x7f090011
 int string map 0x7f090010
 int string navigate 0x7f090025
 int string phone 0x7f090022
+int string polar 0x7f090033
 int string recording 0x7f09002e
 int string saveMap 0x7f09002a
 int string search 0x7f090028

@@ -50,12 +50,18 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 	private int width = 320;
     private int height = 240;
     //192.168.1.6
-    private int ip_ad1 = 192;
+    /*private int ip_ad1 = 192;
+    private int ip_ad2 = 168;
+    private int ip_ad3 = 1;
+    private int ip_ad4 = 6;
+    */private int ip_ad1 = 192;
     private int ip_ad2 = 168;
     private int ip_ad3 = 2;
     private int ip_ad4 = 23;
     private int ip_port = 8081;
-    private String ip_command = "stream?topic=/camera/rgb/image_color";
+    //private String ip_command = "stream?topic=/camera/rgb/image_color";
+
+    private String ip_command = "stream?topic=/merged_image";
 	private Bitmap bmp = null;
 	
 	// image size

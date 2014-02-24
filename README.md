@@ -1,4 +1,4 @@
 Sek_Slam
 ========
 
-Sek navigation/odometry/localisation packages
+G. Stavrinos' version of Sek_Slam.

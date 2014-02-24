@@ -34,7 +34,7 @@
     <!-- Menu strings -->
     <string name="phone">Phone</string>
     <string name="computer">Computer</string>
-    <string name="gamepad">Manual Conrtrol</string>
+    <string name="gamepad">Manual Control</string>
  	<string name="navigate">Navigate</string>
     <string name="camera">Sec View</string>
     <string name="video">Video</string>
@@ -44,8 +44,10 @@
     <string name="downloadMap">Download Map</string>
     <string name="setLoc">Set location</string>
     <string name="setDest">Set destination</string>
-    <string name="recording">manouver recording</string>
+    <string name="recording">maneuver recording</string>
 	<string name="end_recording">end recording</string>
-	<string name="manouver">initiate manouver</string>
-	<string name="stop_manouver">stop manouver</string>
+	<string name="manouver">initiate maneuver</string>
+	<string name="stop_manouver">stop maneuver</string>
+	<string name="cartesian">Camera with cartesian radar</string>
+	<string name="polar">Camera with polar radar</string>
 </resources>
