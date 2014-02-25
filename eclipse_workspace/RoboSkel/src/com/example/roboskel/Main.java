@@ -54,6 +54,34 @@ public class Main extends Activity
 				startActivity(a);
 			}
 		});
+		Button options = (Button)findViewById(R.id.options);
+		options.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) 
+			{
+				optionsMenu();
+			}
+		});
+	}
+	
+	public void optionsMenu(){
+		//TODO add more choices in options
+		final CharSequence[] menu = {"Neck Control"};
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setTitle("Options");
+		b.setSingleChoiceItems(menu, -1, new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface d, int item){
+				Intent sliders;
+				switch (item){
+				case 0:
+					sliders = new Intent(getApplicationContext(),NeckControl.class);
+					startActivity(sliders);
+					break;
+				}
+	   	    	alert.cancel();
+			}
+		});
+	   	alert = b.create();
+	   	alert.show();
 	}
 	
 	private void selectControlType()

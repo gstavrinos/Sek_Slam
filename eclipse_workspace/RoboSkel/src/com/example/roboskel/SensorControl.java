@@ -54,7 +54,6 @@ public class SensorControl extends FragmentActivity implements SensorEventListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sensor_control);
-
 		x=(TextView)findViewById(R.id.x_axis);
 		y=(TextView)findViewById(R.id.y_axis);
 		z=(TextView)findViewById(R.id.z_axis);
