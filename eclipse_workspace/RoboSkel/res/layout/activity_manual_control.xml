@@ -21,7 +21,7 @@
         android:layout_height="200dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/up"
-        android:background="@drawable/left" />
+        android:background="@drawable/left2" />
 
     <ImageButton
         android:id="@+id/right"
@@ -29,7 +29,7 @@
         android:layout_height="200dp"
         android:layout_alignTop="@+id/left"
         android:layout_toRightOf="@+id/back"
-        android:background="@drawable/right" />
+        android:background="@drawable/right2" />
 
     <ImageButton
         android:id="@+id/up"
@@ -37,7 +37,7 @@
         android:layout_height="200dp"
         android:layout_above="@+id/right"
         android:layout_toLeftOf="@+id/right"
-        android:background="@drawable/up" />
+        android:background="@drawable/up2" />
 
     <ImageButton
         android:id="@+id/back"
@@ -45,7 +45,7 @@
         android:layout_height="200dp"
         android:layout_below="@+id/right"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/back" />
+        android:background="@drawable/back2" />
 
     </RelativeLayout>
 	

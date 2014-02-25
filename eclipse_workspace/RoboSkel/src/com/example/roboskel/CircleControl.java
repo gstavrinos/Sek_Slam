@@ -58,6 +58,9 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
     private MjpegView mv = null;
     private String URL;
     private final Handler handler = new Handler();	
+    private boolean cartesian_on = false;
+    private boolean polar_on = false;
+    private boolean standard_on = false;
     /* ******************************/
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
@@ -74,7 +77,6 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 		mv = (MjpegView) findViewById(R.id.mv);
 		if(mv != null){
         	mv.setResolution(width, height);
-        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE));
         }
 		
 		mv.setVisibility(View.INVISIBLE);
@@ -262,14 +264,67 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 				ActiveConnection.getConn().endManeuver();
 				break;
 			case R.id.camera:
-				/* if the view is not visible */
-				if(!mv.isShown())
+				// if the view is not visible
+				if(!mv.isShown()|| (mv.isShown() && !standard_on))
 				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = false;
+					polar_on = false;
+					standard_on = true;
+		        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),0);
 		     		new DoRead().execute(URL);
 		     		mv.setVisibility(View.VISIBLE);
 		     	}
 			    else
 			    {
+					standard_on = false;
+			    	mv.stopPlayback();
+			    	mv.setVisibility(View.INVISIBLE);
+			    }
+				break;
+			case R.id.polar_radar:
+				/* if the view is not visible */
+				if(!mv.isShown() || (mv.isShown() && !polar_on))
+				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = false;
+					polar_on = true;
+					standard_on = false;
+		        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),2);
+		     		new DoRead().execute(URL);
+		     		mv.setVisibility(View.VISIBLE);
+		     	}
+			    else
+			    {
+					polar_on = false;
+			    	mv.stopPlayback();
+			    	mv.setVisibility(View.INVISIBLE);
+			    }
+				break;
+			case R.id.cartesian_radar:
+				/* if the view is not visible */
+				if(!mv.isShown() || (mv.isShown() && !cartesian_on))
+				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = true;
+					polar_on = false;
+					standard_on = false;
+		        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),1);
+		     		new DoRead().execute(URL);
+		     		mv.setVisibility(View.VISIBLE);
+		     	}
+			    else
+			    {
+			    	cartesian_on = false;
 			    	mv.stopPlayback();
 			    	mv.setVisibility(View.INVISIBLE);
 			    }

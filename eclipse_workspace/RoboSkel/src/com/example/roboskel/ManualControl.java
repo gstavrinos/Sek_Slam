@@ -49,12 +49,18 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
     private MjpegView mv = null;
     private String URL;
     private final Handler handler = new Handler();	
+    private boolean cartesian_on = false;
+    private boolean polar_on = false;
+    private boolean standard_on = false;
     /* ******************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		ActiveConnection.getConn().stream(false);
+
+		/* Initiate stream */
+    	if(!ActiveConnection.getConn().isStreaming())
+    		ActiveConnection.getConn().stream(false);
 		setContentView(R.layout.activity_manual_control);
 		/* if sec is not streaming initiate streaming */
 		if(!ActiveConnection.getConn().isStreaming())
@@ -63,7 +69,6 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 		mv = (MjpegView) findViewById(R.id.mv);
 		if(mv != null){
         	mv.setResolution(width, height);
-        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE));
         }
 		mv.setVisibility(View.INVISIBLE);
 		/*initialize buttons not pressed*/
@@ -73,7 +78,7 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setIcon(R.drawable.up);
+		actionBar.setIcon(R.drawable.up2);
 	}
 	
 	private void Listener()
@@ -168,22 +173,70 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 		    	
 		 switch(item.getItemId())
 		 {
-			 case R.id.camera:
+		 case R.id.camera:
+				/* if the view is not visible */
+				if(!mv.isShown()|| (mv.isShown() && !standard_on))
+				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = false;
+					polar_on = false;
+					standard_on = true;
+		        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),0);
+		     		new DoRead().execute(URL);
+		     		mv.setVisibility(View.VISIBLE);
+		     	}
+			    else
+			    {
+			    	standard_on = false;
+			    	mv.stopPlayback();
+			    	mv.setVisibility(View.INVISIBLE);
+			    }
+				break;case R.id.cartesian_radar:
 					/* if the view is not visible */
-					if(!mv.isShown())
+					if(!mv.isShown() || (mv.isShown() && !cartesian_on))
 					{
-						/* Initiate stream */
-				    	if(!ActiveConnection.getConn().isStreaming())
-				    		ActiveConnection.getConn().stream(false);
+						if(mv.isShown()){
+					    	mv.stopPlayback();
+					    	mv.setVisibility(View.INVISIBLE);
+						}
+						cartesian_on = true;
+						polar_on = false;
+						standard_on = false;
+			        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),1);
 			     		new DoRead().execute(URL);
 			     		mv.setVisibility(View.VISIBLE);
 			     	}
 				    else
 				    {
+						cartesian_on = false;
 				    	mv.stopPlayback();
 				    	mv.setVisibility(View.INVISIBLE);
 				    }
-					break;
+					break;case R.id.polar_radar:
+						/* if the view is not visible */
+						if(!mv.isShown() || (mv.isShown() && !polar_on))
+						{
+							if(mv.isShown()){
+						    	mv.stopPlayback();
+						    	mv.setVisibility(View.INVISIBLE);
+							}
+							cartesian_on = false;
+							polar_on = true;
+							standard_on = false;
+				        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),2);
+				     		new DoRead().execute(URL);
+				     		mv.setVisibility(View.VISIBLE);
+				     	}
+					    else
+					    {
+					    	polar_on = false;
+					    	mv.stopPlayback();
+					    	mv.setVisibility(View.INVISIBLE);
+					    }
+						break;
 		 }
 		 return true;
 	 }

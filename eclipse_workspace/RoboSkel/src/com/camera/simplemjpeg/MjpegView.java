@@ -53,15 +53,16 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
     /*private int ip_ad1 = 192;
     private int ip_ad2 = 168;
     private int ip_ad3 = 1;
-    private int ip_ad4 = 6;
-    */private int ip_ad1 = 192;
+    private int ip_ad4 = 6;*/
+    private int ip_ad1 = 192;
     private int ip_ad2 = 168;
     private int ip_ad3 = 2;
     private int ip_ad4 = 23;
     private int ip_port = 8081;
-    //private String ip_command = "stream?topic=/camera/rgb/image_color";
+    private String ip_command_standard = "stream?topic=/camera/rgb/image_color";
 
-    private String ip_command = "stream?topic=/merged_image";
+    private String ip_command_cartesian = "stream?topic=/merged_image";//cartesian radar
+    private String ip_command_polar = "stream?topic=/merged_image_polar";//polar radar
 	private Bitmap bmp = null;
 	
 	// image size
@@ -220,7 +221,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 	 *  Video format MJPEG. 
 	 *  Returns String URL
 	 */
-    public String getUrl(SharedPreferences pr)
+    public String getUrl(SharedPreferences pr, int i)
 	{
 		
 		SharedPreferences preferences = pr;//getSharedPreferences("SAVED_VALUES",Context.MODE_PRIVATE);
@@ -231,7 +232,10 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         ip_ad3 = preferences.getInt("ip_ad3", ip_ad3);
         ip_ad4 = preferences.getInt("ip_ad4", ip_ad4);
         ip_port = preferences.getInt("ip_port", ip_port);
-        ip_command = preferences.getString("ip_command", ip_command);
+        ip_command_standard = preferences.getString("ip_command_standard", ip_command_standard);
+        ip_command_cartesian = preferences.getString("ip_command_cartesian", ip_command_cartesian);
+        ip_command_polar = preferences.getString("ip_command_standard", ip_command_polar);
+        
                 
         StringBuilder sb = new StringBuilder();
         String s_http = "http://";
@@ -249,7 +253,15 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         sb.append(s_colon);
         sb.append(ip_port);
         sb.append(s_slash);
-        sb.append(ip_command);
+        if(i == 0){//just the standard camera
+        	sb.append(ip_command_standard);
+        }
+        else if(i == 1){//camera with cartesian radar
+        	sb.append(ip_command_cartesian);
+        }
+        else{//camera with polar radar
+        	sb.append(ip_command_polar);
+        }
         return new String(sb);
         
 	}

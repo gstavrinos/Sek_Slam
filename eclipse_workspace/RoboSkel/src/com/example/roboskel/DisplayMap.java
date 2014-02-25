@@ -44,6 +44,10 @@ public class DisplayMap extends SherlockActivity
     
     private int width = 320;
     private int height = 240;
+    private boolean cartesian_on = false;
+    private boolean polar_on = false;
+    private boolean standard_on = false;
+    
     
 	final Handler handler = new Handler();	
 	
@@ -54,17 +58,17 @@ public class DisplayMap extends SherlockActivity
 		setContentView(R.layout.activity_display_map);
 		/* if sec is not streaming initiate streaming */
 		if(!ActiveConnection.getConn().isStreaming())
-			ActiveConnection.getConn().stream(false);
+			ActiveConnection.getConn().stream(false);//TODO
 		mv = (MjpegView) findViewById(R.id.mv);
 		if(mv != null){
         	mv.setResolution(width, height);
-        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE));
         }
 		mv.setVisibility(View.INVISIBLE);
 		/* If map does not exist download it */
 		File file = new File(ActiveConnection.getConn().getFloorMap());
-		if(!file.exists())
+		if(!file.exists()){
 			ActiveConnection.getConn().receiveMap();
+		}
 		/* Make map full screen */
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -112,8 +116,8 @@ public class DisplayMap extends SherlockActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-		 /*super.onOptionsItemSelected(item);*/
-		    	
+		 //super.onOptionsItemSelected(item);
+		  	
 		 switch(item.getItemId())
 		 {
 		    case R.id.action_settings:
@@ -128,7 +132,7 @@ public class DisplayMap extends SherlockActivity
 				}
 				else
 				{
-			    	/* start view refresh*/
+			    	// start view refresh
 					img.Navigate();
 					item.setIcon(R.drawable.ic_action_map_navigating);
 				}
@@ -141,14 +145,23 @@ public class DisplayMap extends SherlockActivity
 			    Toast.makeText(getBaseContext(), "You selected Gamepad", Toast.LENGTH_SHORT).show();
 			    break;
 			case R.id.camera:
-				/* if the view is not visible */
-				if(!mv.isShown())
+				//if the view is not visible 
+				if(!mv.isShown() || (mv.isShown() && !standard_on))
 				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = false;
+					polar_on = false;
+					standard_on = true;
+					URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),0);
 	        		new DoRead().execute(URL);
 	        		mv.setVisibility(View.VISIBLE);
 	        	}
 			    else
 			    {
+			    	standard_on = false;
 			    	mv.stopPlayback();
 			    	mv.setVisibility(View.INVISIBLE);
 			    }
@@ -171,10 +184,48 @@ public class DisplayMap extends SherlockActivity
 				ActiveConnection.getConn().endManeuverMap();
 				break;
 			case R.id.cartesian_radar:
-				//TODO
+				//if the view is not visible 
+				if(!mv.isShown() || (mv.isShown() && !cartesian_on))
+				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = true;
+					polar_on = false;
+					standard_on = false;
+					URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),1);
+	        		new DoRead().execute(URL);
+	        		mv.setVisibility(View.VISIBLE);
+	        	}
+			    else
+			    {
+			    	cartesian_on = false;
+			    	mv.stopPlayback();
+			    	mv.setVisibility(View.INVISIBLE);
+			    }
 				break;
 			case R.id.polar_radar:
-				//TODO
+				//if the view is not visible 
+				if(!mv.isShown() || (mv.isShown() && !polar_on))
+				{
+					if(mv.isShown()){
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+					}
+					cartesian_on = false;
+					polar_on = true;
+					standard_on = false;
+					URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),2);
+	        		new DoRead().execute(URL);
+	        		mv.setVisibility(View.VISIBLE);
+	        	}
+			    else
+			    {
+			    	polar_on = false;
+			    	mv.stopPlayback();
+			    	mv.setVisibility(View.INVISIBLE);
+			    }
 				break;
 		    }
 		    return true;
