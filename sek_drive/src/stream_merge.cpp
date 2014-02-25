@@ -81,10 +81,19 @@ void imageCallback (const sensor_msgs::Image::ConstPtr& str_img)
         gl_image.step = str_img->step;
         gl_image.data.clear();
         gl_image.data = str_img->data;
+        
+        gl_image_2.height = str_img->height;
+        gl_image_2.width = str_img->width;
+        gl_image_2.encoding = str_img->encoding;
+        gl_image_2.step = str_img->step;
+        gl_image_2.data.clear();
+        gl_image_2.data = str_img->data;
+        
         IMAGE_RECEIVED = 1;
     }
 	if(SCAN_RECEIVED == 1){
 		merge_stream();	
+        merge_stream2();
 	}
 }
 
