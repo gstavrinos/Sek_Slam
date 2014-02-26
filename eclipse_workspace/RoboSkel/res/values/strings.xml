@@ -30,6 +30,7 @@
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_main">Main</string>
+    <string name="title_activity_neck_control">NeckControl</string>
     
     <!-- Menu strings -->
     <string name="phone">Phone</string>

@@ -54,6 +54,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.example.roboskel.NeckControl"
+            android:label="@string/title_activity_neck_control"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name="com.example.roboskel.SensorControl"
             android:label="@string/title_activity_sensor_control"
             android:screenOrientation="portrait" >

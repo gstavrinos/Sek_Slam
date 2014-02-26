@@ -3,6 +3,7 @@ package connectionProtocol;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import android.bluetooth.BluetoothDevice;
 import android.os.Environment;
@@ -96,6 +97,19 @@ public class Connection
 	{
 		Log.i("Canceled Route", "");
 		this.setState(6);
+	}
+	//TODO rotation
+	public void setRotationAndTilt(int rotation, int tilt){
+		//this.setState(14);
+		try {
+			connP.getDos().write(Float.toString(rotation).getBytes());
+			connP.getDos().flush();
+			connP.getDos().write(Float.toString(tilt).getBytes());
+			connP.getDos().flush();
+		} catch (IOException e) {
+			Log.e("ERROR@SetRotation",e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	/** Create the folder "/Skel" in devices SD card, where the map will be stored */
