@@ -1,5 +1,6 @@
 from sensorControl import py_to_joy
 from mapInfo import mapInfo
+from mastRotation import mastRotation
 import threading
 from threading import Thread
 import os
@@ -118,6 +119,11 @@ class handler(object):
                     print("multiple destination points")
                 x=mapInfo(s)
                 x.setMultDestinations()
+            elif(state==14):#rotate the mast
+                if(self.debug):
+                    print("mast rotation")
+                x=mastRotation(s)
+                x.rotateMast()
             elif(state==0):
                 print("Ending control")
                 return False
