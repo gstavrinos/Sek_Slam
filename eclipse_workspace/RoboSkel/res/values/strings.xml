@@ -51,4 +51,5 @@
 	<string name="stop_manouver">Stop maneuver</string>
 	<string name="cartesian">Camera with cartesian radar</string>
 	<string name="polar">Camera with polar radar</string>
+	<string name="seekbars">Rotate and tilt neck</string>
 </resources>

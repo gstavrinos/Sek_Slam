@@ -99,13 +99,21 @@ public class Connection
 		this.setState(6);
 	}
 	//TODO rotation
-	public void setRotationAndTilt(int rotation, int tilt){
+	public void setRotationAndTilt(int rotation, int tilt, boolean cancel){
 		//this.setState(14);
 		try {
-			connP.getDos().write(Float.toString(rotation).getBytes());
+			if(!cancel){
+				connP.getDos().write((rotation + " " + " " + tilt + " 665").getBytes());
+				connP.getDos().flush();
+			}
+			else{
+				connP.getDos().write((rotation + " " + " " + tilt + " 666").getBytes());
+				connP.getDos().flush();
+			}
+			/*connP.getDos().write(Float.toString(rotation).getBytes());
 			connP.getDos().flush();
 			connP.getDos().write(Float.toString(tilt).getBytes());
-			connP.getDos().flush();
+			connP.getDos().flush();*/
 		} catch (IOException e) {
 			Log.e("ERROR@SetRotation",e.getMessage());
 			e.printStackTrace();

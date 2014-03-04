@@ -194,7 +194,8 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 			    	mv.stopPlayback();
 			    	mv.setVisibility(View.INVISIBLE);
 			    }
-				break;case R.id.cartesian_radar:
+				break;
+				case R.id.cartesian_radar:
 					/* if the view is not visible */
 					if(!mv.isShown() || (mv.isShown() && !cartesian_on))
 					{
@@ -215,7 +216,8 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 				    	mv.stopPlayback();
 				    	mv.setVisibility(View.INVISIBLE);
 				    }
-					break;case R.id.polar_radar:
+					break;
+					case R.id.polar_radar:
 						/* if the view is not visible */
 						if(!mv.isShown() || (mv.isShown() && !polar_on))
 						{
@@ -237,8 +239,21 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 					    	mv.setVisibility(View.INVISIBLE);
 					    }
 						break;
+					case R.id.sliders:
+						ActiveConnection.getConn().send(0);
+						Intent a=new Intent(getApplicationContext(),NeckControl.class);
+						a.putExtra("caller", "1");
+						startActivityForResult(a,1);
+	   					break;
 		 }
 		 return true;
+	 }
+	 
+	 @Override
+	 public void onActivityResult(int requestCode, int resultCode, Intent data){
+		 //if(requestCode == resultCode){
+			 ActiveConnection.getConn().setState(1);
+		// }
 	 }
 	 
 	@Override
