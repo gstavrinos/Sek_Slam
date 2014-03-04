@@ -74,6 +74,7 @@ public class Main extends Activity
 				switch (item){
 				case 0:
 					sliders = new Intent(getApplicationContext(),NeckControl.class);
+					sliders.putExtra("caller", "menu");
 					startActivity(sliders);
 					break;
 				}

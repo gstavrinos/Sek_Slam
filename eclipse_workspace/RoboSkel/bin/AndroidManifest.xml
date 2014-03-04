@@ -56,7 +56,8 @@
         <activity
             android:name="com.example.roboskel.NeckControl"
             android:label="@string/title_activity_neck_control"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" 
+            android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity
             android:name="com.example.roboskel.SensorControl"

@@ -249,6 +249,7 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 		 return true;
 	 }
 	 
+	 //do something when the other intent, comes back here
 	 @Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data){
 		 //if(requestCode == resultCode){

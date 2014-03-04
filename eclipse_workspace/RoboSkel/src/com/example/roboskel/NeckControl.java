@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -13,16 +14,25 @@ public class NeckControl extends FragmentActivity{
 
 	private int rotate = 168;
 	private int updown = 0;
-	private String caller;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		try{
+			Intent intent = getIntent();
+			String caller = intent.getStringExtra("caller");
+			Window window = this.getWindow();
+			window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+			WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+			if(caller.equals("menu")){
+				this.setTheme(android.R.style.Theme_Light);
+			}
+		}
+		catch(Exception e){
+			Log.w("Warning", "Calling activity did not send any extras!");
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_neck_control);
 	    ActiveConnection.getConn().setState(14);
-	    Intent intent = getIntent();
-	    caller = intent.getStringExtra("caller");
-	    Log.i(caller, caller);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    SeekBar rotation=(SeekBar)findViewById(R.id.rotation);
 	    rotation.incrementProgressBy(1);
@@ -37,8 +47,13 @@ public class NeckControl extends FragmentActivity{
 	            rotate = 150 + progress;
 	            //Toast.makeText(getBaseContext(),"Rotation : "+rotate, Toast.LENGTH_SHORT).show();
 	          // ActiveConnection.getConn().setState(14);
-	            ActiveConnection.getConn().setRotationAndTilt(rotate, updown, false);
-	            //ActiveConnection.getConn().send(665);
+	            try{
+	            	ActiveConnection.getConn().setRotationAndTilt(rotate, updown, false);
+	            }
+	            catch(Exception e){
+	        		Log.e("Error", "Could not connect to Sek!");
+	        	}
+	            	//ActiveConnection.getConn().send(665);
 	        }
 	        
 	        public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -58,8 +73,13 @@ public class NeckControl extends FragmentActivity{
 	        	updown = progress - 30;
 	            //Toast.makeText(getBaseContext(),"Tilt : "+updown, Toast.LENGTH_SHORT).show();
 	            //ActiveConnection.getConn().setState(15);
-	            ActiveConnection.getConn().setRotationAndTilt(rotate, updown, false);
-	            //ActiveConnection.getConn().send(665);
+	        	try{
+	        		ActiveConnection.getConn().setRotationAndTilt(rotate, updown, false);
+	        	}
+	        	catch(Exception e){
+	        		Log.e("Error", "Could not connect to Sek!");
+	        	}
+	        		//ActiveConnection.getConn().send(665);
 	        }
 	        
 	        public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -71,10 +91,12 @@ public class NeckControl extends FragmentActivity{
 	@Override
 	public void onBackPressed(){
 		super.onBackPressed();	
-		ActiveConnection.getConn().setRotationAndTilt(rotate, updown, true);
-        if(caller.equals("1")){
-        //	ActiveConnection.getConn().setState(1);//back to manual control
-        }
-		//ActiveConnection.getConn().send(666);
+		try{
+			ActiveConnection.getConn().setRotationAndTilt(rotate, updown, true);
+		}
+		catch(Exception e){
+			Log.e("Error", "Could not connect to Sek!");
+		}
+			//ActiveConnection.getConn().send(666);
 	}
 }

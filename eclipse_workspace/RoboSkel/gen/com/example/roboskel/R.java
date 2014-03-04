@@ -1098,8 +1098,9 @@ containing a value of this type.
         public static final int loading=0x7f0b0002;
         public static final int main=0x7f0b0003;
         public static final int manual_control=0x7f0b0004;
-        public static final int sensor_control=0x7f0b0005;
-        public static final int simple_sensor=0x7f0b0006;
+        public static final int neck_control=0x7f0b0005;
+        public static final int sensor_control=0x7f0b0006;
+        public static final int simple_sensor=0x7f0b0007;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
