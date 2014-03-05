@@ -266,11 +266,13 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 	   public void onPause() {
 	    	if(DEBUG) Log.d(TAG,"onPause()");
 	        super.onPause();
-	        if(mv!=null){
+	        //TODO I omitted the camera pause, 
+	        //because we want to see the camera while changing it
+	        /*if(mv!=null){
 	        	if(mv.isStreaming()){
 			        mv.stopPlayback();
 	        	}
-	        }
+	        }*/
 	    }
 	
 	@Override

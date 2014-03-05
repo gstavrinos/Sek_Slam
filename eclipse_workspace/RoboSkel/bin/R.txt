@@ -412,10 +412,11 @@ int layout activity_simple_sensor 0x7f03001c
 int layout fragment_circle_control_dummy 0x7f03001d
 int layout fragment_display_map_dummy 0x7f03001e
 int layout fragment_manual_control_dummy 0x7f03001f
-int layout fragment_sensor_control_dummy 0x7f030020
-int layout fragment_simple_sensor_dummy 0x7f030021
-int layout sherlock_spinner_dropdown_item 0x7f030022
-int layout sherlock_spinner_item 0x7f030023
+int layout fragment_neck_control 0x7f030020
+int layout fragment_sensor_control_dummy 0x7f030021
+int layout fragment_simple_sensor_dummy 0x7f030022
+int layout sherlock_spinner_dropdown_item 0x7f030023
+int layout sherlock_spinner_item 0x7f030024
 int menu circle_control 0x7f0b0000
 int menu display_map 0x7f0b0001
 int menu loading 0x7f0b0002

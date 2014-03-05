@@ -1087,10 +1087,11 @@ containing a value of this type.
         public static final int fragment_circle_control_dummy=0x7f03001d;
         public static final int fragment_display_map_dummy=0x7f03001e;
         public static final int fragment_manual_control_dummy=0x7f03001f;
-        public static final int fragment_sensor_control_dummy=0x7f030020;
-        public static final int fragment_simple_sensor_dummy=0x7f030021;
-        public static final int sherlock_spinner_dropdown_item=0x7f030022;
-        public static final int sherlock_spinner_item=0x7f030023;
+        public static final int fragment_neck_control=0x7f030020;
+        public static final int fragment_sensor_control_dummy=0x7f030021;
+        public static final int fragment_simple_sensor_dummy=0x7f030022;
+        public static final int sherlock_spinner_dropdown_item=0x7f030023;
+        public static final int sherlock_spinner_item=0x7f030024;
     }
     public static final class menu {
         public static final int circle_control=0x7f0b0000;
