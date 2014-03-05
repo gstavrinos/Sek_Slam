@@ -130,6 +130,11 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 			return this;
 		}
 	}
+	 
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+	    super.onWindowFocusChanged(hasFocus);
+	}
 	
 	@Override
 	public boolean onTouch(View v,MotionEvent e)
@@ -197,12 +202,16 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 		ActiveConnection.getConn().setPower(false);
 		ActiveConnection.getConn().pause();
 		if(DEBUG) Log.d(TAG,"onPause()");
-        super.onPause();
-        if(mv!=null){
+       // super.onPause();//TODO
+       /* if(mv!=null){
         	if(mv.isStreaming()){
 		        mv.stopPlayback();
         	}
-        }
+        }*/
+	}@Override
+	protected void onStop() 
+	{
+		super.onStop();
 	}
 
 	@Override
@@ -329,10 +338,25 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 			    	mv.setVisibility(View.INVISIBLE);
 			    }
 				break;
+			case R.id.sliders:
+				Intent a=new Intent(getApplicationContext(),NeckControl.class);
+				a.putExtra("caller", "1");
+				startActivityForResult(a,1);
+					break;
 		 }
 		 
 		 return true;
 	}
+	 
+	 //do something when the other intent, comes back here
+	 @Override
+	 public void onActivityResult(int requestCode, int resultCode, Intent data){
+		 //if(requestCode == resultCode){
+		 //ActiveConnection.getConn().setPower(true);
+		 //ActiveConnection.getConn().setOnPause(false);
+		 ActiveConnection.getConn().setState(2);
+		// }
+	 }
 
 	public void setImageError(){
     	handler.post(new Runnable() {
@@ -343,6 +367,8 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
     		}
     	});
     }
+	
+	
     private class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
         protected MjpegInputStream doInBackground(String... url) {
             //TODO: if camera has authentication deal with it and don't just not work

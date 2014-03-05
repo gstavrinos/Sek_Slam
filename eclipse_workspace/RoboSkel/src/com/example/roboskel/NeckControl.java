@@ -87,7 +87,7 @@ public class NeckControl extends FragmentActivity implements ActionBar.OnNavigat
 	    	
 	        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) 
 	    	{
-	            rotate = 150 + progress;
+	            rotate = 184 - progress;
 	            //Toast.makeText(getBaseContext(),"Rotation : "+rotate, Toast.LENGTH_SHORT).show();
 	          // ActiveConnection.getConn().setState(14);
 	            try{
