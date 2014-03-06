@@ -392,6 +392,15 @@ public class Connection
 			send(12);
 		 }catch(Exception ex){Log.i("Connection", "endRecording");}
 	}
+	
+	public void flush(){
+		try {
+			connP.getDos().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void setSensitivity(float m,float t)
 	{
 		try {
@@ -421,6 +430,16 @@ public class Connection
 				connP.getDos().flush();
 			}
 		 }catch(Exception ex){Log.i("Connection", "send");}
+	}
+	
+	public void stateAndSensitivity(int state, float m, float t){
+		try {
+			connP.getDos().write((state + " " + " " + m + " "+t).getBytes());
+			connP.getDos().flush();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/** every time user exits control mode, pause() must be called before onDestroy*/

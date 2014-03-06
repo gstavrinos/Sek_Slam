@@ -281,7 +281,7 @@ public class SensorControl extends FragmentActivity implements SensorEventListen
 	}
 	
 	@Override
-	protected void onPause() 
+	protected void onPause()
 	{
 		super.onPause();
 		mSensorManager.unregisterListener(this);
