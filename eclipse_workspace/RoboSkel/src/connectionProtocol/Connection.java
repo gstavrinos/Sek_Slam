@@ -433,6 +433,7 @@ public class Connection
 	}
 	
 	public void stateAndSensitivity(int state, float m, float t){
+		this.state = state;
 		try {
 			connP.getDos().write((state + " " + " " + m + " "+t).getBytes());
 			connP.getDos().flush();

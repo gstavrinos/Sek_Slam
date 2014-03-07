@@ -77,8 +77,10 @@ public class SensorControl extends FragmentActivity implements SensorEventListen
 		/*Parameter to keep screen from locking*/
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		/*Send operation code 2 for sensor control*/
-		ActiveConnection.getConn().setState(2);
-		ActiveConnection.getConn().setSensitivity(0.2f, 0.25f);
+		try{
+			ActiveConnection.getConn().stateAndSensitivity(2, 0.2f, 0.25f);
+		}
+		catch(Exception e){}
 		/*Initialize variables used to determine shake(emergency brake of robot)*/
 		mAccel = 0.00f;
 	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
@@ -209,22 +211,37 @@ public class SensorControl extends FragmentActivity implements SensorEventListen
 					{
 						z.setText("z : "+Float.toString((float)(Math.toDegrees(azimuth[0]))));
 						/*pitch, rotation around the X axis*/
-						x.setText("x : "+Float.toString((float)(Math.toDegrees(azimuth[1]))));
+						//x.setText("x : "+Float.toString((float)(Math.toDegrees(azimuth[1]))));
 						/*roll, rotation around the Y axis*/
-						y.setText("y : "+Float.toString((float)(Math.toDegrees(azimuth[2]))));
+						//y.setText("y : "+Float.toString((float)(Math.toDegrees(azimuth[2]))));
+					
+						//Changed the x and y textviews, to show the landscape mode values
+						y.setText("y : "+Float.toString((float)(Math.toDegrees(azimuth[1]))));
+						x.setText("x : "+Float.toString((float)(Math.toDegrees(azimuth[2]))));
 					}
 					else
 					{
 						canonicalAz[0]=(Math.round(((float)cannAz(refAzimuth[0],azimuth[0])/maxAngle)*100.0f))/100.0f;
-						canonicalAz[1]=-(Math.round(((float)cannAz(refAzimuth[1],azimuth[1])/maxAngle)*100.0f))/100.0f;
-						canonicalAz[2]=-(Math.round(((float)cannAz(refAzimuth[2],azimuth[2])/maxAngle)*100.0f))/100.0f;
+						//The below commented out cannonicalAzs are made for portrait mode.
+						/*canonicalAz[1]=-(Math.round(((float)cannAz(refAzimuth[1],azimuth[1])/maxAngle)*100.0f))/100.0f;
+						canonicalAz[2]=-(Math.round(((float)cannAz(refAzimuth[2],azimuth[2])/maxAngle)*100.0f))/100.0f;*/
+						
+						
+						//CannonicalAzs for landscape mode (Basically x->y & y->x)
+						canonicalAz[2]=(Math.round(((float)cannAz(refAzimuth[1],azimuth[1])/maxAngle)*100.0f))/100.0f;
+						canonicalAz[1]=-(Math.round(((float)cannAz(refAzimuth[2],azimuth[2])/maxAngle)*100.0f))/100.0f;
 						ActiveConnection.getConn().send(canonicalAz);
 						
 						z.setText("z : "+Float.toString(canonicalAz[0]));
 						/*pitch, rotation around the X axis*/
-						x.setText("x : "+Float.toString(canonicalAz[1]));
+						//x.setText("x : "+Float.toString(canonicalAz[1]));
 						/*roll, rotation around the Y axis*/
-						y.setText("y : "+Float.toString(canonicalAz[2]));
+						//y.setText("y : "+Float.toString(canonicalAz[2]));
+						
+						//Changed the above TextViews, to show the corrected (landscape mode) values
+						y.setText("y : "+Float.toString(canonicalAz[1]));
+						x.setText("x : "+Float.toString(canonicalAz[2]));
+						
 					}
 				}
 			}

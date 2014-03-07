@@ -62,7 +62,7 @@
         <activity
             android:name="com.example.roboskel.SensorControl"
             android:label="@string/title_activity_sensor_control"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name="com.example.roboskel.LoadingActivity"

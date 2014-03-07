@@ -82,8 +82,10 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 		/*Parameter to keep screen from locking*/
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		/*Send operation code 2 for sensor control*/
-		ActiveConnection.getConn().setState(2);
-		ActiveConnection.getConn().setSensitivity(0.2f, 0.0f);
+		try{
+			ActiveConnection.getConn().stateAndSensitivity(2, 0.2f, 0.0f);
+		}
+		catch(Exception e){}
 
 		/*Initialize variables used to determine shake(emergency brake of robot)*/
 		mAccel = 0.00f;

@@ -99,7 +99,10 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 		/*Parameter to keep screen from locking*/
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		/*Send operation code 2 for sensor control*/
-		ActiveConnection.getConn().stateAndSensitivity(2, 0.0f, 0.0f);
+		try{
+			ActiveConnection.getConn().stateAndSensitivity(2, 0.0f, 0.0f);
+		}
+		catch(Exception e){}
 		//ActiveConnection.getConn().setState(2);
 		/*Define movement starting point ( [-1,-x],[x,1] )*/
 		//ActiveConnection.getConn().setSensitivity(0.0f, 0.0f);
@@ -108,7 +111,8 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 		
 		horn=(Button)findViewById(R.id.horn);
 		horn.setOnClickListener(new OnClickListener()
-		{public void onClick(View v){ActiveConnection.getConn().horn();}});
+		{
+			public void onClick(View v){ActiveConnection.getConn().horn();}});
 		
 		center=(TextView)findViewById(R.id.dimensions);
 		

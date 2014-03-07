@@ -57,10 +57,6 @@ public class ManualControl extends FragmentActivity implements OnTouchListener,
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-
-		/* Initiate stream */
-    	if(!ActiveConnection.getConn().isStreaming())
-    		ActiveConnection.getConn().stream(false);
 		setContentView(R.layout.activity_manual_control);
 		/* if sec is not streaming initiate streaming */
 		if(!ActiveConnection.getConn().isStreaming())
