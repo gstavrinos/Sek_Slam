@@ -36,6 +36,8 @@ int IMAGE_RECEIVED = 0;
 int FACE_DETECTED = 0;
 sensor_msgs::Image gl_image;
 double tilt;
+double rotation = 163.0;
+double currentLocation;
 void detect_face();
 
 void imageCallback(const sensor_msgs::Image::ConstPtr& str_img){
@@ -49,7 +51,7 @@ void imageCallback(const sensor_msgs::Image::ConstPtr& str_img){
 
 		IMAGE_RECEIVED = 1;
 	}
-
+	FACE_DETECTED = 0;
 	detect_face();
 }
 
@@ -59,6 +61,7 @@ void tiltCallback(const std_msgs::Float64::ConstPtr& msg){
 
 void detect_face(){
 	CascadeClassifier face_cascade;
+	CascadeClassifier eyes_cascade;
 	if( !face_cascade.load("/home/skel/ws2/src/sek_drive/src/haarcascades/haarcascade_frontalface_alt.xml") ){
  		printf("Error loading face_cascade\n"); 
 		return;
@@ -84,32 +87,33 @@ void detect_face(){
             FACE_DETECTED = 1;
 			Point center( faces[closestFace].x + faces[closestFace].width/2, faces[closestFace].y + faces[closestFace].height/2 );
                         ellipse( frame->image, center, Size( faces[closestFace].width/2, faces[closestFace].height/2), 0, 0, 360, Scalar( 255, 0, 0), 4, 8, 0 );
-	                if(abs(frame->image.rows/2 - center.x) > 10 && abs(frame->image.cols/2 - center.y) > 10){
+	                if(abs(frame->image.rows/2 - center.x) > 20 || abs(frame->image.cols/2 - center.y) > 20){
 				
-				if(abs(frame->image.rows/2 - center.x) > 10){
+				if(abs(frame->image.rows/2 - center.x) > 20){
+					ROS_INFO_STREAM("changing rotation");
 					if(frame->image.rows/2 - center.x < 0){//the face is on the right
 						//TODO rotate 10 to the right
+						currentLocation -= 0.5;
+						rotation = currentLocation; 
                         
 					}
 					else{
 						//TODO rotate 10 to the left
+						currentLocation += 0.5;
+						rotation = currentLocation;
 					}
 				}
-				if(abs(frame->image.cols/2 - center.y) > 10){
+				if(abs(frame->image.cols/2 - center.y) > 20){
 					if(frame->image.cols/2 - center.y > 0){//the face is up
-                        			tilt += 0.0666;
+                        			tilt += 0.566;
 					}
 					else{
-                        			tilt -= 0.0666;
+                        			tilt -= 0.566;
 					}
 				}
 
         	        }
 		}
-        else
-        {
-            FACE_DETECTED=0;
-        }
 	}
 	catch(cv_bridge::Exception& e){
 		ROS_ERROR("cv_bridge exception: %s", e.what());
@@ -134,7 +138,7 @@ int main(int argc, char** argv){
     
 	ros::Subscriber img_in;
 	img_in = n.subscribe<sensor_msgs::Image>("/camera/rgb/image_color", 5, imageCallback);
-    
+
     ros::Subscriber cur_tilt;
 	cur_tilt = n.subscribe("cur_tilt", 5, tiltCallback);
     
@@ -143,15 +147,29 @@ int main(int argc, char** argv){
     
     ros::Publisher tilt_pub;
 	tilt_pub = n.advertise<std_msgs::Float64>("/tilt_angle", 10);
+
+	ros::Publisher rot_pub;
+	rot_pub = n.advertise<std_msgs::Float64>("/mast_float", 10, true);
     std_msgs::Float64 msg_ ;
+	std_msgs::Float64 msg2;
+	int firstTime = 0;
 	while(ros::ok()){
 		if(IMAGE_RECEIVED == 1){
 			face_det.publish(gl_image);
 			IMAGE_RECEIVED = 0;
 		}
+	if(firstTime == 0){
+		msg2.data = 163.0;
+		rot_pub.publish(msg2);
+		currentLocation = 163.0;
+		firstTime++;
+	}
         if (FACE_DETECTED == 1){
+		ROS_INFO_STREAM("publish");
             msg_.data = tilt;
             tilt_pub.publish(msg_);
+		msg2.data = rotation;
+		rot_pub.publish(msg2);
         }
 		ros::spinOnce();
 	}
