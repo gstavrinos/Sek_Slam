@@ -368,7 +368,10 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 	 //do something when the other intent, comes back here
 	 @Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data){
+		 try{
 			ActiveConnection.getConn().stateAndSensitivity(2, 0.0f, 0.0f);
+		 }
+		 catch(Exception e){}
 	 }
 
 	public void setImageError(){

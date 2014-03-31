@@ -137,7 +137,8 @@ public class Main extends Activity
 		 public void onClick(DialogInterface dialog, int which) 
 		 {
 			 /* Exit Application */
-			 finish();}
+			 finish();
+		 }
 		 });
 		 alert_box.setNegativeButton("No", new DialogInterface.OnClickListener() {
 		 @Override

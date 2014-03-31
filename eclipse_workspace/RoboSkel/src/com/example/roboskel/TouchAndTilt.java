@@ -73,7 +73,6 @@ ActionBar.OnNavigationListener, OnTouchListener{
 	private float mAccelCurrent; /* current acceleration including gravity */
 	private float mAccelLast; /*last acceleration including gravity*/
 	private ImageButton gas, brake;
-	private boolean g, b;//gas and brake boolean
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -82,7 +81,6 @@ ActionBar.OnNavigationListener, OnTouchListener{
 		setContentView(R.layout.activity_touch_and_tilt);
 		Button ref=(Button)findViewById(R.id.referenceP);
 	    ref.setOnClickListener(TouchAndTilt.this);
-		g=b=false;
 		gas = (ImageButton)findViewById(R.id.gas);
 		brake = (ImageButton)findViewById(R.id.brake);
 		gas.setOnTouchListener(TouchAndTilt.this);
@@ -369,9 +367,9 @@ ActionBar.OnNavigationListener, OnTouchListener{
 					    }
 						break;
 					case R.id.sliders:
-						ActiveConnection.getConn().send(0);
+						//ActiveConnection.getConn().send(0);
 						Intent a=new Intent(getApplicationContext(),NeckControl.class);
-						a.putExtra("caller", "1");
+						a.putExtra("simple_sensor", "1");
 						startActivityForResult(a,1);
 	   					break;
 		 }
@@ -421,27 +419,19 @@ ActionBar.OnNavigationListener, OnTouchListener{
 			switch (v.getId()) 
 			{
 			     case R.id.gas:
-			    	 g=true;
 			            canonicalAz[2]=1;
 			    	 ActiveConnection.getConn().send(canonicalAz);
 			         break;
 			     case R.id.brake:
-			    	 b=true;
 			         canonicalAz[2]=-1;
 			    	 ActiveConnection.getConn().send(canonicalAz);
 			    	 break;
 			}
 		}else if(event.getAction() == MotionEvent.ACTION_UP)
 		{
-			g=b=false;
 	         canonicalAz[2]=0;
 	    	 ActiveConnection.getConn().send(canonicalAz);
 		}
-		
-		/*if (g)
-	        ActiveConnection.getConn().send(1);
-		else if(b)
-	        ActiveConnection.getConn().send(-1);*/
 		}
 		return true;
 	}
