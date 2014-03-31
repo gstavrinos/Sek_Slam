@@ -87,7 +87,7 @@ public class Main extends Activity
 	
 	private void selectControlType()
 	{	
-		final CharSequence[] items = {"Manual Control", "Simple Sensor Control", "Joystick Control","Sensor Control "};
+		final CharSequence[] items = {"Manual Control", "Simple Sensor Control", "Joystick Control","Sensor Control","Touch And Tilt Control"};
 		 
 	   	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	   	builder.setTitle("Select a control type");
@@ -113,6 +113,10 @@ public class Main extends Activity
 	   	    			a=new Intent(getApplicationContext(),SensorControl.class);
 	   					startActivity(a);
 	   					break;
+	   	    		case 4:
+	   	    			a = new Intent(getApplicationContext(),TouchAndTilt.class);
+	   	    			startActivity(a);
+	   	    			break;
 	   	    	}
 	   	    	alert.cancel();
 	   	    }

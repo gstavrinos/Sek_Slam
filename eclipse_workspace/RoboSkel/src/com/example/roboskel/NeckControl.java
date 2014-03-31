@@ -17,6 +17,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,6 +62,14 @@ public class NeckControl extends FragmentActivity implements ActionBar.OnNavigat
 				ActionBar actionBar = getActionBar();
 				actionBar.setDisplayShowTitleEnabled(false);
 				actionBar.setIcon(R.drawable.camera);
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+			}
+			else if(caller.equals("simple_sensor")){
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			}
+			else{
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			}
 		}
 		catch(Exception e){
@@ -217,7 +226,6 @@ public class NeckControl extends FragmentActivity implements ActionBar.OnNavigat
 		catch(Exception e){
 			Log.e("Error", "Could not connect to Sek!");
 		}
-			//ActiveConnection.getConn().send(666);
 	}
 	
 	
@@ -286,7 +294,7 @@ public class NeckControl extends FragmentActivity implements ActionBar.OnNavigat
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		/* Inflate the menu; this adds items to the action bar if it is present.*/
-		getMenuInflater().inflate(R.menu.manual_control, menu);
+		getMenuInflater().inflate(R.menu.neck_control, menu);
 		return true;
 	}
 

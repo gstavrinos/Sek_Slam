@@ -42,6 +42,29 @@
         android:text="TextView" />
 
 </RelativeLayout>
+<LinearLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="640px"
+			android:layout_alignParentBottom="true"
+            android:layout_height="480px"
+            android:layout_marginTop="300dp"
+            android:layout_marginLeft="80dp"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" >
+        
+    	
+        <com.camera.simplemjpeg.MjpegView
+		android:id="@+id/mv"
+		android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:layout_weight="1"
+        />
+    	    
+    	    
+        </LinearLayout>
     
     
 </FrameLayout>

@@ -1,6 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/camera"
+        android:title="@string/camera"
+        android:icon="@drawable/camera"
+        android:showAsAction="ifRoom|withText"
+        style="@style/Theme.Sherlock"
+    />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
@@ -25,5 +32,23 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/stop_manouver"/>
+  	<item
+        android:id="@+id/cartesian_radar"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/cartesian"
+        style="@style/Theme.Sherlock"/>
+    <item
+        android:id="@+id/polar_radar"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/polar"
+        style="@style/Theme.Sherlock"/>
+    <item
+        android:id="@+id/sliders"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/seekbars"
+        style="@style/Theme.Sherlock"/>
 
 </menu>

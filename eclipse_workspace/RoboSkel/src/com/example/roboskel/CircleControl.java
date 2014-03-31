@@ -152,10 +152,22 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 		canonicalAz[2]=-Math.round(((float)(y-centerY)/radious)*100.0f)/100.0f;
 		canonicalAz[1]=-Math.round(((float)(x-centerX)/radious)*100.0f)/100.0f;
 		
-		if(Math.abs(canonicalAz[2])>1.0f)
-			canonicalAz[2]=1;
-		if(Math.abs(canonicalAz[1])>1.0f)
-			canonicalAz[1]=1;
+		if(Math.abs(canonicalAz[2])>1.0f){
+			if(canonicalAz[2] > 0){
+				canonicalAz[2] = 1;
+			}
+			else{
+				canonicalAz[2] = -1;
+			}
+		}
+		if(Math.abs(canonicalAz[1])>1.0f){
+			if(canonicalAz[1] > 0){
+				canonicalAz[1] = 1;
+			}
+			else{
+				canonicalAz[1] = -1;
+			}
+		}
 		
 		switch(e.getAction())
 		{
@@ -356,15 +368,7 @@ public class CircleControl extends FragmentActivity implements OnTouchListener,
 	 //do something when the other intent, comes back here
 	 @Override
 	 public void onActivityResult(int requestCode, int resultCode, Intent data){
-		 //if(requestCode == resultCode){
-		 //ActiveConnection.getConn().setPower(true);
-		 //ActiveConnection.getConn().setOnPause(false);
-		 //ActiveConnection.getConn().setState(2);
-		// ActiveConnection.getConn().setSensitivity(0.0f, 0.0f);
-
 			ActiveConnection.getConn().stateAndSensitivity(2, 0.0f, 0.0f);
-		 
-		// }
 	 }
 
 	public void setImageError(){

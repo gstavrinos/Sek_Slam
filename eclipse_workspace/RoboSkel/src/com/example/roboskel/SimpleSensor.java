@@ -1,10 +1,25 @@
 package com.example.roboskel;
 
 
+import java.io.IOException;
+import java.net.URI;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+import com.camera.simplemjpeg.MjpegInputStream;
+import com.camera.simplemjpeg.MjpegView;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,6 +28,7 @@ import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -48,6 +64,15 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 	private float mAccel; /*acceleration apart from gravity*/
 	private float mAccelCurrent; /* current acceleration including gravity */
 	private float mAccelLast; /*last acceleration including gravity*/
+    private boolean cartesian_on = false;
+    private boolean polar_on = false;
+    private boolean standard_on = false;
+    private MjpegView mv = null;
+	private int width = 320;
+    private int height = 240;
+    private String URL;
+	private static final boolean DEBUG=true;
+    private static final String TAG = "MJPEG";
 	/*
 	 * 
 	 */
@@ -61,6 +86,14 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		/* if sec is not streaming initiate streaming */
+		if(!ActiveConnection.getConn().isStreaming())
+			ActiveConnection.getConn().stream(false);
+		/* get view for streaming */
+		mv = (MjpegView) findViewById(R.id.mv);
+		if(mv != null){
+        	mv.setResolution(width, height);
+        }
 
 		/*Getting sensors*/
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -86,6 +119,8 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 			ActiveConnection.getConn().stateAndSensitivity(2, 0.2f, 0.0f);
 		}
 		catch(Exception e){}
+		
+		mv.setVisibility(View.INVISIBLE);
 
 		/*Initialize variables used to determine shake(emergency brake of robot)*/
 		mAccel = 0.00f;
@@ -262,10 +297,10 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 		super.onPause();
 		mSensorManager.unregisterListener(this);
 		
-		ActiveConnection.getConn().setPower(false);
+		//ActiveConnection.getConn().setPower(false);
 		ActiveConnection.getConn().pause();
 		
-		finish();
+		//finish();
 	}
 	
 	@Override
@@ -314,6 +349,147 @@ public class SimpleSensor extends FragmentActivity implements SensorEventListene
 		
 		return true;
 	}
+		
+		@Override
+		 public boolean onOptionsItemSelected(MenuItem item) 
+		{
+			 /*super.onOptionsItemSelected(item);*/
+			    	
+			 switch(item.getItemId())
+			 {
+				case R.id.camera:
+					// if the view is not visible
+					if(!mv.isShown()|| (mv.isShown() && !standard_on))
+					{
+						if(mv.isShown()){
+					    	mv.stopPlayback();
+					    	mv.setVisibility(View.INVISIBLE);
+						}
+						cartesian_on = false;
+						polar_on = false;
+						standard_on = true;
+			        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),0);
+			     		new DoRead().execute(URL);
+			     		mv.setVisibility(View.VISIBLE);
+			     	}
+				    else
+				    {
+						standard_on = false;
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+				    }
+					break;
+				case R.id.polar_radar:
+					/* if the view is not visible */
+					if(!mv.isShown() || (mv.isShown() && !polar_on))
+					{
+						if(mv.isShown()){
+					    	mv.stopPlayback();
+					    	mv.setVisibility(View.INVISIBLE);
+						}
+						cartesian_on = false;
+						polar_on = true;
+						standard_on = false;
+			        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),2);
+			     		new DoRead().execute(URL);
+			     		mv.setVisibility(View.VISIBLE);
+			     	}
+				    else
+				    {
+						polar_on = false;
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+				    }
+					break;
+				case R.id.cartesian_radar:
+					/* if the view is not visible */
+					if(!mv.isShown() || (mv.isShown() && !cartesian_on))
+					{
+						if(mv.isShown()){
+					    	mv.stopPlayback();
+					    	mv.setVisibility(View.INVISIBLE);
+						}
+						cartesian_on = true;
+						polar_on = false;
+						standard_on = false;
+			        	URL=mv.getUrl(getSharedPreferences("SAVED_VALUES", MODE_PRIVATE),1);
+			     		new DoRead().execute(URL);
+			     		mv.setVisibility(View.VISIBLE);
+			     	}
+				    else
+				    {
+				    	cartesian_on = false;
+				    	mv.stopPlayback();
+				    	mv.setVisibility(View.INVISIBLE);
+				    }
+					break;
+				case R.id.sliders:
+					Intent a=new Intent(getApplicationContext(),NeckControl.class);
+					a.putExtra("caller", "simple_sensor");
+					startActivityForResult(a,1);
+						break;
+			 }
+			 
+			 return true;
+		}
+		 
+		 //do something when the other intent, comes back here
+		 @Override
+		 public void onActivityResult(int requestCode, int resultCode, Intent data){
+			 try{
+				ActiveConnection.getConn().stateAndSensitivity(2, 0.2f, 0.0f);	
+			 }
+			 catch(Exception e){}
+		}
+
+		
+		
+	    private class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
+	        protected MjpegInputStream doInBackground(String... url) {
+	            //TODO: if camera has authentication deal with it and don't just not work
+	            HttpResponse res = null;         
+	            DefaultHttpClient httpclient = new DefaultHttpClient(); 
+	            HttpParams httpParams = httpclient.getParams();
+	            HttpConnectionParams.setConnectionTimeout(httpParams, 5*1000);
+	            HttpConnectionParams.setSoTimeout(httpParams, 5*1000);
+	            if(DEBUG) Log.d(TAG, "1. Sending http request");
+	            try {
+	                res = httpclient.execute(new HttpGet(URI.create(url[0])));
+	                if(DEBUG) Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
+	                if(res.getStatusLine().getStatusCode()==401){
+	                    //You must turn off camera User Access Control before this will work
+	                    return null;
+	                }
+	                return new MjpegInputStream(res.getEntity().getContent());  
+	            } catch (ClientProtocolException e) {
+	            	if(DEBUG){
+		                e.printStackTrace();
+		                Log.d(TAG, "Request failed-ClientProtocolException", e);
+	            	}
+	                //Error connecting to camera
+	            } catch (IOException e) {
+	            	if(DEBUG){
+		                e.printStackTrace();
+		                Log.d(TAG, "Request failed-IOException", e);
+	            	}
+	                //Error connecting to camera
+	            }
+	            return null;
+	        }
+
+	        protected void onPostExecute(MjpegInputStream result) {
+	            mv.setSource(result);
+	            if(result!=null){
+	            	result.setSkip(1);
+	            	setTitle(R.string.app_name);
+	            }else{
+	            	Log.e("Disconnected","");
+	            	//setTitle(R.string.title_disconnected);
+	            }
+	            mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+	            mv.showFps(false);
+	        }
+	    }
 
 	
 }

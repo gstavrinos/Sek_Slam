@@ -54,9 +54,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.example.roboskel.TouchAndTilt"
+            android:label="@string/title_activity_touch_and_tilt"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.example.roboskel.NeckControl"
             android:label="@string/title_activity_neck_control"
-            android:screenOrientation="landscape" 
             android:theme="@android:style/Theme.Holo.Light.Dialog">
         </activity>
         <activity

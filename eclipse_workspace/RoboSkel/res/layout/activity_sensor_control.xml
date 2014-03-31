@@ -17,21 +17,13 @@
 
     
 
-    <TextView
-        android:id="@+id/acceleration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/z_axis"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp" />
-
     <Button
         android:id="@+id/SetStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="set benchmark" />
+        android:text="set benchmark" 
+        android:layout_marginLeft="600dp"/>
 
     <TextView
         android:id="@+id/z_axis"
@@ -39,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/SetStart"
         android:layout_marginBottom="46dp"
-        android:layout_toLeftOf="@+id/SetStart"
+        android:layout_marginLeft="600dp"
         android:text="TextView" />
 
     <TextView
@@ -48,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/z_axis"
         android:layout_marginBottom="35dp"
-        android:layout_toLeftOf="@+id/SetStart"
+        android:layout_marginLeft="600dp"
         android:text="TextView" />
 
     <TextView
@@ -57,9 +49,30 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/y_axis"
         android:layout_marginBottom="24dp"
-        android:layout_toLeftOf="@+id/SetStart"
+        android:layout_marginLeft="600dp"
         android:text="TextView" />
 
 </RelativeLayout>
+<LinearLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="640px"
+			android:layout_alignParentLeft="true"
+            android:layout_height="480px"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" >
+        
+    	
+        <com.camera.simplemjpeg.MjpegView
+		android:id="@+id/mv"
+		android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:layout_weight="1"
+        />
+    	    
+    	    
+        </LinearLayout>
     
   </FrameLayout>

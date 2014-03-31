@@ -27,6 +27,7 @@
     <string name="title_activity_circle_control">CircleControl</string>
     <string name="title_activity_simple_sensor">SimpleSensor</string>
     <string name="title_activity_sensor_control">SensorControl</string>
+    <string name="title_activity_touch_and_tilt">TouchAndTilt</string>
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_main">Main</string>
