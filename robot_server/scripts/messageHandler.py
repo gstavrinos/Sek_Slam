@@ -6,6 +6,7 @@ from threading import Thread
 import os
 import rospy
 from RoboskelPos import RoboskelPos
+from controlMode import controlMode
 
 class handler(object):
 
@@ -35,7 +36,7 @@ class handler(object):
 		state=(str(s.recv(1024))).split()
                 #state=int(s.recv(32))
                 if(self.debug):
-                    print("State = {}".format(state))
+                    print("State = {}".format(state[0]))
             except ValueError:
                     print("Not a valid number at state {}|".format(state))
                     return False
@@ -129,6 +130,11 @@ class handler(object):
                     print("mast rotation")
                 x=mastRotation(s)
                 x.rotateMast()
+            elif(int(state[0])==15):#change control mode (manual/assisted)
+		mode = state[1]
+            	if(self.debug):
+			print("The mode now is: "+mode)
+            	controlMode(mode)
             elif(int(state[0])==0):
                 print("Ending control")
                 return False
