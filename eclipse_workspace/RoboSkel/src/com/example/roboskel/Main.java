@@ -90,10 +90,16 @@ public class Main extends Activity
 							// TODO REALLY send something! Now we are just pretending!
 							switch(which){
 							case 0:
-								ActiveConnection.getConn().setControlMode(0);
+								try{
+									ActiveConnection.getConn().setControlMode(0);
+								}
+								catch(Exception e){}
 								break;
 							case 1:
-								ActiveConnection.getConn().setControlMode(1);
+								try{
+									ActiveConnection.getConn().setControlMode(1);
+								}
+								catch(Exception e){}
 								break;
 							}
 							subalert.cancel();
