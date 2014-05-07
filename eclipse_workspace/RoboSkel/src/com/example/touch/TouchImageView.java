@@ -57,6 +57,8 @@ public class TouchImageView extends ImageView
 	
 	private static final String DEBUG = "DEBUG";
 	
+	private ImageView sek;
+	
 	/*
 	 * SuperMin and SuperMax multipliers. Determine how much the image can be
 	 * zoomed below or above the zoom boundaries, before animating back to the
@@ -576,7 +578,7 @@ public class TouchImageView extends ImageView
             
             if (state == NONE || state == DRAG || state == FLING) {
 	            switch (event.getAction()) {
-	                case MotionEvent.ACTION_DOWN:
+	                case MotionEvent.ACTION_DOWN://TODO
 	                	OnTouch=true;
 	                	last.set(curr);
 	                    if (fling != null)
@@ -616,7 +618,7 @@ public class TouchImageView extends ImageView
 				currentPos.copy(startPoint);
 				Log.i("Roboskel is at ","x = "+relativeX+"| y = "+relativeY);
 				Toast.makeText(context, "Roboskel is at x = "+relativeX+"| y = "+relativeY, Toast.LENGTH_SHORT).show();
-				/* Draw starting point at original image */
+				/* Draw starting point at original image *///TODO
 				setImageBitmap(drawPoints(getOriginalMap(),new Quaternion(startPoint.getX(),startPoint.getY(),0.0f,1.0f),ActiveConnection.getConn().getPoints()));
 				ActiveConnection.getConn().setPoint(new Quaternion(-startPoint.getX(),startPoint.getY(), 0.0f, 1.0f),true);
 				ActiveConnection.getConn().setStart(false);

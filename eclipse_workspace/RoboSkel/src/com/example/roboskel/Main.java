@@ -16,6 +16,7 @@ public class Main extends Activity
 {
 	/* Dialog to display all controls */
 	private AlertDialog alert;
+	AlertDialog subalert;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -65,7 +66,7 @@ public class Main extends Activity
 	
 	public void optionsMenu(){
 		//TODO add more choices in options
-		final CharSequence[] menu = {"Neck Control"};
+		final CharSequence[] menu = {"Neck Control", "Control Mode"};
 		AlertDialog.Builder b = new AlertDialog.Builder(this);
 		b.setTitle("Options");
 		b.setSingleChoiceItems(menu, -1, new DialogInterface.OnClickListener(){
@@ -76,6 +77,30 @@ public class Main extends Activity
 					sliders = new Intent(getApplicationContext(),NeckControl.class);
 					sliders.putExtra("caller", "menu");
 					startActivity(sliders);
+					break;
+				case 1:
+					//TODO add control mode (send a signal to python)
+					final CharSequence[] submenu = {"Manual Control", "Assisted Control"};
+					AlertDialog.Builder c = new AlertDialog.Builder(Main.this);
+					c.setTitle("Control Mode");
+					c.setSingleChoiceItems(submenu, -1, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO REALLY send something! Now we are just pretending!
+							switch(which){
+							case 0:
+								ActiveConnection.getConn().setControlMode(0);
+								break;
+							case 1:
+								ActiveConnection.getConn().setControlMode(1);
+								break;
+							}
+							subalert.cancel();
+						}
+					});
+					subalert = c.create();
+					subalert.show();
 					break;
 				}
 	   	    	alert.cancel();

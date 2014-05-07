@@ -516,6 +516,18 @@ public class Connection
 		} catch (Exception e) {Log.i("Connection", "setState");}
 	}
 	
+	public void setControlMode(int mode){
+		this.state = 15;
+		try{
+			connP.getDos().write((15/*this is the control mode state*/ + " " + mode).getBytes());
+			connP.getDos().flush();
+		}
+		catch(Exception e){
+			Log.e("Exception@ControlMode",e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean isPower() {
 		return power;
 	}
